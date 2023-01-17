@@ -467,3 +467,62 @@ Suites.push({
         }),
     ]
 });
+
+const PROXX_EXPANDS = [
+    [2, 2],
+    [0, 30],
+    [15, 23],
+    [11, 20],
+    [18, 6],
+    [10, 2],
+    [31, 3],
+    [24, 13],
+  ];
+  
+  const PROXX_EXPANDS_LARGE = [
+    [3, 3],
+    [19, 8],
+    [13, 29],
+    [19, 51],
+    [13, 82],
+    [26, 93],
+    [3, 83],
+    [4, 60],
+    [39, 62],
+  ];
+  
+  // http://localhost:8003/InteractiveRunner.html?suite=Proxx-Tables&startAutomatically=true
+  Suites.push({
+    name: "Proxx-Tables",
+    url: "proxx-tables/dist/index.html?seed=1&size=40",
+    async prepare(page) {
+      await page.waitForElement(
+        "tr:last-child td:nth-child(36) button.cell.unrevealed",
+        1000
+      );
+      await page.waitForElement(
+        'tr > td > div[data-state="unrevealed"] > button.cell.unrevealed',
+        1000
+      );
+    },
+    tests: [
+      new BenchmarkTestStep("Expand 1000 squares", async (page) => {
+        // await page.startBuffer(true);
+  
+        for (const [row, col] of PROXX_EXPANDS) {
+          page.querySelector(
+            `tr:nth-child(${row + 1}) td:nth-child(${col + 1}) button`
+          ).click()
+          await page.waitForMutation(
+            `tr:nth-child(${row + 1}) td:nth-child(${col + 2}) button`,
+            ":not(.unrevealed)"
+          );
+          await page.forceLayout(
+            `tr:nth-child(${row + 1}) td:nth-child(${col + 2})`
+          );
+        }
+  
+        // await page.flush();
+      }),
+    ],
+  });
