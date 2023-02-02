@@ -1,20 +1,20 @@
 {
   "private": true,
   "scripts": {
-    "build": "babel --plugins transform-react-jsx js/app.jsx | uglifyjs -o build.min.js"
+    "build": "babel --plugins transform-react-jsx js/app.jsx > build.min.js"
   },
   "dependencies": {
     "classnames": "^2.2.5",
     "director": "^1.2.8",
-    "react": "15.5.4",
-    "react-dom": "15.5.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "todomvc-app-css": "^2.0.0",
     "todomvc-common": "^1.0.2"
   },
   "devDependencies": {
-    "babel-cli": "^6.10.1",
-    "babel-plugin-transform-react-jsx": "^6.8.0",
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-plugin-uglify": "^1.0.2",
-    "uglify-js": "^2.6.4"
+    "uglify-js": "^3.17.4"
   }
 }

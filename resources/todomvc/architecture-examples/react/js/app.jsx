@@ -125,8 +125,8 @@ var app = app || {};
   };
 
 
-  var TodoFooter = React.createClass({
-    render: function () {
+  class TodoFooter extends React.Component {
+    render() {
       var activeTodoWord = app.Utils.pluralize(this.props.count, 'item');
       var clearButton = null;
 
@@ -175,13 +175,19 @@ var app = app || {};
         </footer>
       );
     }
-  });
+  }
+
 
   var ESCAPE_KEY = 27;
   var ENTER_KEY = 13;
 
-  var TodoItem = React.createClass({
-    handleSubmit: function (event) {
+  class TodoItem extends React.Component {
+    constructor() {
+      super();
+
+      this.state = this.getInitialState();
+    }
+    handleSubmit(event) {
       var val = this.state.editText.trim();
       if (val) {
         this.props.onSave(val);
@@ -189,31 +195,31 @@ var app = app || {};
       } else {
         this.props.onDestroy();
       }
-    },
+    }
 
-    handleEdit: function () {
+    handleEdit() {
       this.props.onEdit();
       this.setState({editText: this.props.todo.title});
-    },
+    }
 
-    handleKeyDown: function (event) {
+    handleKeyDown(event) {
       if (event.which === ESCAPE_KEY) {
         this.setState({editText: this.props.todo.title});
         this.props.onCancel(event);
       } else if (event.which === ENTER_KEY) {
         this.handleSubmit(event);
       }
-    },
+    }
 
-    handleChange: function (event) {
+    handleChange(event) {
       if (this.props.editing) {
         this.setState({editText: event.target.value});
       }
-    },
+    }
 
-    getInitialState: function () {
-      return {editText: this.props.todo.title};
-    },
+    getInitialState() {
+      return {editText: this.props && this.props.todo.title};
+    }
 
     /**
      * This is a completely optional performance enhancement that you can
@@ -222,13 +228,13 @@ var app = app || {};
      * just use it as an example of how little code it takes to get an order
      * of magnitude performance improvement.
      */
-    shouldComponentUpdate: function (nextProps, nextState) {
+    shouldComponentUpdate(nextProps, nextState) {
       return (
         nextProps.todo !== this.props.todo ||
         nextProps.editing !== this.props.editing ||
         nextState.editText !== this.state.editText
       );
-    },
+    }
 
     /**
      * Safely manipulate the DOM after updating the state when invoking
@@ -236,15 +242,15 @@ var app = app || {};
      * For more info refer to notes at https://facebook.github.io/react/docs/component-api.html#setstate
      * and https://facebook.github.io/react/docs/component-specs.html#updating-componentdidupdate
      */
-    componentDidUpdate: function (prevProps) {
+    componentDidUpdate(prevProps) {
       if (!prevProps.editing && this.props.editing) {
         var node = React.findDOMNode(this.refs.editField);
         node.focus();
         node.setSelectionRange(node.value.length, node.value.length);
       }
-    },
+    }
 
-    render: function () {
+    render() {
       return (
         <li className={classNames({
           completed: this.props.todo.completed,
@@ -266,27 +272,31 @@ var app = app || {};
             ref="editField"
             className="edit"
             value={this.state.editText}
-            onBlur={this.handleSubmit}
-            onChange={this.handleChange}
-            onKeyDown={this.handleKeyDown}
+            onBlur={this.handleSubmit.bind(this)}
+            onChange={this.handleChange.bind(this)}
+            onKeyDown={this.handleKeyDown.bind(this)}
           />
         </li>
       );
     }
-  });
+  }
 
 	var ENTER_KEY = 13;
 
-	var TodoApp = React.createClass({
-		getInitialState: function () {
+	class TodoApp extends React.Component {
+    constructor() {
+      super();
+      this.state = this.getInitialState();
+    }
+		getInitialState () {
 			return {
 				nowShowing: app.ALL_TODOS,
 				editing: null,
 				newTodo: ''
 			};
-		},
+		}
 
-		componentDidMount: function () {
+		componentDidMount () {
 			var setState = this.setState;
 			var router = Router({
 				'/': setState.bind(this, {nowShowing: app.ALL_TODOS}),
@@ -294,13 +304,13 @@ var app = app || {};
 				'/completed': setState.bind(this, {nowShowing: app.COMPLETED_TODOS})
 			});
 			router.init('/');
-		},
+		}
 
-		handleChange: function (event) {
+		handleChange (event) {
 			this.setState({newTodo: event.target.value});
-		},
+		}
 
-		handleNewTodoKeyDown: function (event) {
+		handleNewTodoKeyDown (event) {
 			if (event.keyCode !== ENTER_KEY) {
 				return;
 			}
@@ -313,39 +323,39 @@ var app = app || {};
 				this.props.model.addTodo(val);
 				this.setState({newTodo: ''});
 			}
-		},
+		}
 
-		toggleAll: function (event) {
+		toggleAll (event) {
 			var checked = event.target.checked;
 			this.props.model.toggleAll(checked);
-		},
+		}
 
-		toggle: function (todoToToggle) {
+		toggle (todoToToggle) {
 			this.props.model.toggle(todoToToggle);
-		},
+		}
 
-		destroy: function (todo) {
+		destroy (todo) {
 			this.props.model.destroy(todo);
-		},
+		}
 
-		edit: function (todo) {
+		edit (todo) {
 			this.setState({editing: todo.id});
-		},
+		}
 
-		save: function (todoToSave, text) {
+		save (todoToSave, text) {
 			this.props.model.save(todoToSave, text);
 			this.setState({editing: null});
-		},
+		}
 
-		cancel: function () {
+		cancel () {
 			this.setState({editing: null});
-		},
+		}
 
-		clearCompleted: function () {
+		clearCompleted () {
 			this.props.model.clearCompleted();
-		},
+		}
 
-		render: function () {
+		render() {
 			var footer;
 			var main;
 			var todos = this.props.model.todos;
@@ -416,8 +426,8 @@ var app = app || {};
 							className="new-todo"
 							placeholder="What needs to be done?"
 							value={this.state.newTodo}
-							onKeyDown={this.handleNewTodoKeyDown}
-							onChange={this.handleChange}
+							onKeyDown={this.handleNewTodoKeyDown.bind(this)}
+							onChange={this.handleChange.bind(this)}
 							autoFocus={true}
 						/>
 					</header>
@@ -426,7 +436,7 @@ var app = app || {};
 				</div>
 			);
 		}
-	});
+	}
 
 	var model = new app.TodoModel('react-todos');
 
