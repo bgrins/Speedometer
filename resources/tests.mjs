@@ -338,18 +338,47 @@ Suites.push({
     async prepare(page) {
     },
     tests: [
-        new BenchmarkTestStep(`Test load`, (page) => {
+        new BenchmarkTestStep(`Render`, (page) => {
+            const big = page.querySelector("#big");
+            const small = page.querySelector("#small");
+            const highlight = page.querySelector("#highlight");
+            const unhighlight = page.querySelector("#unhighlight");
+
+            let configurations = [
+                [big, highlight],
+                [big, unhighlight],
+                [small, highlight],
+                [small, unhighlight],
+            ];
+            for (let j = 0; j < configurations.length; j++) {
+                configurations[j][0].click();
+                configurations[j][1].click();
+            }
         }),
     ],
 });
-
 Suites.push({
     name: "Editor-TipTap",
     url: "tentative/editors/dist/tiptap.html",
     async prepare(page) {
     },
     tests: [
-        new BenchmarkTestStep(`Test load`, (page) => {
+        new BenchmarkTestStep(`Render`, (page) => {
+            const big = page.querySelector("#big");
+            const small = page.querySelector("#small");
+            const highlight = page.querySelector("#highlight");
+            const unhighlight = page.querySelector("#unhighlight");
+
+            let configurations = [
+                [big, highlight],
+                [big, unhighlight],
+                [small, highlight],
+                [small, unhighlight],
+            ];
+            for (let j = 0; j < configurations.length; j++) {
+                configurations[j][0].click();
+                configurations[j][1].click();
+            }
         }),
     ],
 });
