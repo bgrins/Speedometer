@@ -333,6 +333,28 @@ Suites.push({
 });
 
 Suites.push({
+    name: "Editor-Monaco",
+    url: "tentative/editors/dist/monaco.html",
+    async prepare(page) {
+    },
+    tests: [
+        new BenchmarkTestStep(`Test load`, (page) => {
+        }),
+    ],
+});
+
+Suites.push({
+    name: "Editor-TipTap",
+    url: "tentative/editors/dist/tiptap.html",
+    async prepare(page) {
+    },
+    tests: [
+        new BenchmarkTestStep(`Test load`, (page) => {
+        }),
+    ],
+});
+
+Suites.push({
     name: "React-Stockcharts",
     url: "tentative/react-stockcharts/build/index.html?type=hybrid",
     async prepare(page) {

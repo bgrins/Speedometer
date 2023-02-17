@@ -1,9 +1,8 @@
 
 import { resolve } from 'path'
 import { defineConfig } from "vite";
-import react from '@vitejs/plugin-react';
 export default defineConfig({
-  plugins: [react()],
+  base: "./", // Since this will be loaded from the project root
   build: {
     rollupOptions: {
       input: {
