@@ -1,53 +1,57 @@
 
-import * as monaco from "monaco-editor";
+import {editor as monacoEditor, languages} from "monaco-editor";
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
 
-// Todo - these add quite a bit to the build size. Remove if we decide to only use one
-// language for syntax highlight.
-// import jsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
-// import cssWorker from "monaco-editor/esm/vs/language/css/css.worker?worker";
-// import htmlWorker from "monaco-editor/esm/vs/language/html/html.worker?worker";
-
+let tsWorkerInstance = new tsWorker();
 self.MonacoEnvironment = {
   globalAPI: true,
   getWorker(_, label) {
-    // if (label === "json") {
-    //   return new jsonWorker();
-    // }
-    // if (label === "css" || label === "scss" || label === "less") {
-    //   return new cssWorker();
-    // }
-    // if (label === "html" || label === "handlebars" || label === "razor") {
-    //   return new htmlWorker();
-    // }
+    console.log("getWorker", _, label);
     if (label === "typescript" || label === "javascript") {
-      return new tsWorker();
+      // return new tsWorker();
+      return tsWorkerInstance;
     }
     return new editorWorker();
   },
 };
 
 export default function (element, value) {
-  let editor = monaco.editor.create(element, {
+  let editor = monacoEditor.create(element, {
     value: value,
-    language: "plaintext",
+    language: "javascript",
     automaticLayout: true,
-
     wordWrap: "wordWrapColumn",
     wordWrapColumn: 80,
   });
   return {
     editor,
+    ready: new Promise(async (resolve) => {
+      await languages.typescript.getJavaScriptWorker();
+      editor.focus();
+      resolve();
+    }),
+    getScrollHeight() {
+      return editor.getScrollHeight();
+    },
+    getScrollTop() {
+      return editor.getScrollTop();
+    },
+    setScrollTop(value) {
+      editor.setScrollTop(value);
+      // Force a render. Todo - do other editors expose this? should this be a separate function?
+      editor.render(true);
+    },
     setValue(value) {
       editor.setValue(value);
       // Force a render. Todo - do other editors expose this? should this be a separate function?
-      editor.render();
+      editor.render(true);
     },
     format(on) {
-      monaco.editor.setModelLanguage(editor.getModel(), on ? "javascript" : "plaintext");
+      monacoEditor.setModelLanguage(editor.getModel(), on ? "javascript" : "plaintext");
+      editor.setValue(editor.getValue());
       // Force a render. Todo - do other editors expose this? should this be a separate function?
-      editor.render();
+      editor.render(true);
     },
   };
 }

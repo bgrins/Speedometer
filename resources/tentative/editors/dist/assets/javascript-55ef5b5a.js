@@ -1,4 +1,4 @@
-import{conf as t,language as e}from"./typescript-6fad12da.js";import"./monaco-beb15e73.js";import"./bigtext-aee14826.js";/*!-----------------------------------------------------------------------------
+import{conf as t,language as e}from"./typescript-21d1f0f2.js";import"./monaco-bfcb0825.js";import"./bigtext-6c6a3954.js";/*!-----------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Version: 0.35.0(71ac097e6155a405f6be52b0b368a04508c31e31)
  * Released under the MIT license
