@@ -132,6 +132,7 @@
             import editor from "./monaco.js";
             let editorContainer = document.querySelector("#editor");
             let editorInstance = null;
+            let editorPromise = null;
             let currentSize = null;
             let currentFormatting = unhighlight;
 
@@ -152,9 +153,10 @@
             buttons.layout.addEventListener("click", layout);
 
             buttons.create.addEventListener("click", (e) => {
-                if (!editorInstance) {
-                    editorInstance = editor(editorContainer);
-                    editorInstance.ready.then(() => {
+                if (!editorPromise) {
+                    editorPromise = editor(editorContainer);
+                    editorPromise.then((instance) => {
+                        editorInstance = instance;
                         buttons.create.setAttribute("disabled", "true");
                     });
                 }

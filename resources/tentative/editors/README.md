@@ -5,6 +5,12 @@ Created with
 npm create vite@latest editors
 ```
 
+```
+mkdir monaco-editor-built
+cp -R node_modules/monaco-editor/min monaco-editor-built/min
+cp -R node_modules/monaco-editor/min-maps monaco-editor-built/min-maps
+```
+
 Developing
 
 ```

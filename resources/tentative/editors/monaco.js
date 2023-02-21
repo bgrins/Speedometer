@@ -1,57 +1,56 @@
+import loader from "@monaco-editor/loader";
+// import * as monaco from 'monaco-editor';
+// loader.config({monaco})
 
-import {editor as monacoEditor, languages} from "monaco-editor";
-import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
-import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
+// In local development use the current directory to load monaco sources. Else go up one directory.
+const path = location.pathname.includes("/dist/") ? "../monaco-editor-built/min/vs" : "./monaco-editor-built/min/vs";
+const loaderInit = loader.init();
 
-let tsWorkerInstance = new tsWorker();
-self.MonacoEnvironment = {
-  globalAPI: true,
-  getWorker(_, label) {
-    console.log("getWorker", _, label);
-    if (label === "typescript" || label === "javascript") {
-      // return new tsWorker();
-      return tsWorkerInstance;
-    }
-    return new editorWorker();
-  },
-};
+export default async function (element, value) {
+    let { editor: monacoEditor, languages } = await loaderInit;
 
-export default function (element, value) {
-  let editor = monacoEditor.create(element, {
-    value: value,
-    language: "javascript",
-    automaticLayout: true,
-    wordWrap: "wordWrapColumn",
-    wordWrapColumn: 80,
-  });
-  return {
-    editor,
-    ready: new Promise(async (resolve) => {
-      await languages.typescript.getJavaScriptWorker();
-      editor.focus();
-      resolve();
-    }),
-    getScrollHeight() {
-      return editor.getScrollHeight();
-    },
-    getScrollTop() {
-      return editor.getScrollTop();
-    },
-    setScrollTop(value) {
-      editor.setScrollTop(value);
-      // Force a render. Todo - do other editors expose this? should this be a separate function?
-      editor.render(true);
-    },
-    setValue(value) {
-      editor.setValue(value);
-      // Force a render. Todo - do other editors expose this? should this be a separate function?
-      editor.render(true);
-    },
-    format(on) {
-      monacoEditor.setModelLanguage(editor.getModel(), on ? "javascript" : "plaintext");
-      editor.setValue(editor.getValue());
-      // Force a render. Todo - do other editors expose this? should this be a separate function?
-      editor.render(true);
-    },
-  };
+    const languageWorkerReady = new Promise((resolve) => {
+        languages.onLanguage("javascript", async () => {
+            await languages.typescript.getJavaScriptWorker();
+            resolve();
+        });
+    });
+
+    let editor = monacoEditor.create(element, {
+        value: value,
+        language: "javascript",
+        automaticLayout: true,
+        wordWrap: "wordWrapColumn",
+        wordWrapColumn: 80,
+    });
+    return {
+        editor,
+        ready: new Promise(async (resolve) => {
+            await languageWorkerReady;
+            editor.focus();
+            resolve();
+        }),
+        getScrollHeight() {
+            return editor.getScrollHeight();
+        },
+        getScrollTop() {
+            return editor.getScrollTop();
+        },
+        setScrollTop(value) {
+            editor.setScrollTop(value);
+            // Force a render. Todo - do other editors expose this? should this be a separate function?
+            editor.render(true);
+        },
+        setValue(value) {
+            editor.setValue(value);
+            // Force a render. Todo - do other editors expose this? should this be a separate function?
+            editor.render(true);
+        },
+        format(on) {
+            monacoEditor.setModelLanguage(editor.getModel(), on ? "javascript" : "plaintext");
+            editor.setValue(editor.getValue());
+            // Force a render. Todo - do other editors expose this? should this be a separate function?
+            editor.render(true);
+        },
+    };
 }
