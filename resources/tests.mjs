@@ -315,21 +315,16 @@ Suites.push({
     url: "tentative/editors/dist/monaco.html",
     async prepare(page) {
         // Todo should we make this a button that initializes the editor be an
-        // actual step?
+        // actual step? This could be done by creating a dummy editor which
+        // triggers the language worker, waiting for that to complete, and then
+        // separately creating the target editor. For now just make creation part of
+        // preparation to make things easier.
         page.querySelector("#create").click();
-        // Once the editor ready promise is complete it disables the button.
-        // Without this the syntax highlighting does not work consistently.
+        // Once the editor is initialized (async) it disables the button.
+        // Without this the syntax highlighting does not get applied consistently.
         await page.waitForElement("#create[disabled]");
-        // Monaco has a textarea which drives focus, so rather than just waiting
-        // for the container element and clicking it, wait for the textarea
-        // let editor = await page.waitForElement("#editor textarea");
-        // editor.focus();
-        // await new Promise(r=>setTimeout(r, 1000));
     },
     tests: [
-        // new BenchmarkTestStep(`Initialize`, (page) => {
-        //     page.querySelector("#create").click();
-        // }),
         new BenchmarkTestStep(`Big`, (page) => {
             page.querySelector("#big").click();
             page.querySelector("#layout").click();
@@ -352,33 +347,33 @@ Suites.push({
         }),
     ],
 });
-Suites.push({
-    name: "Editor-TipTap",
-    url: "tentative/editors/dist/tiptap.html",
-    async prepare(page) {
-        let editor = await page.waitForElement("#editor > *");
-        editor.focus();
-    },
-    tests: [
-        new BenchmarkTestStep(`Render`, (page) => {
-            const big = page.querySelector("#big");
-            const small = page.querySelector("#small");
-            const highlight = page.querySelector("#highlight");
-            const unhighlight = page.querySelector("#unhighlight");
+// Suites.push({
+//     name: "Editor-TipTap",
+//     url: "tentative/editors/dist/tiptap.html",
+//     async prepare(page) {
+//         let editor = await page.waitForElement("#editor > *");
+//         editor.focus();
+//     },
+//     tests: [
+//         new BenchmarkTestStep(`Render`, (page) => {
+//             const big = page.querySelector("#big");
+//             const small = page.querySelector("#small");
+//             const highlight = page.querySelector("#highlight");
+//             const unhighlight = page.querySelector("#unhighlight");
 
-            let configurations = [
-                [big, highlight],
-                [big, unhighlight],
-                [small, highlight],
-                [small, unhighlight],
-            ];
-            for (let j = 0; j < configurations.length; j++) {
-                configurations[j][0].click();
-                configurations[j][1].click();
-            }
-        }),
-    ],
-});
+//             let configurations = [
+//                 [big, highlight],
+//                 [big, unhighlight],
+//                 [small, highlight],
+//                 [small, unhighlight],
+//             ];
+//             for (let j = 0; j < configurations.length; j++) {
+//                 configurations[j][0].click();
+//                 configurations[j][1].click();
+//             }
+//         }),
+//     ],
+// });
 
 Suites.push({
     name: "React-Stockcharts",
