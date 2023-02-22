@@ -41,18 +41,18 @@ export default async function (element, value) {
         setScrollTop(value) {
             editor.setScrollTop(value);
             // Force a render. Todo - do other editors expose this? should this be a separate function?
-            editor.render(true);
+            // editor.render(true);
         },
         setValue(value) {
             editor.setValue(value);
             // Force a render. Todo - do other editors expose this? should this be a separate function?
-            editor.render(true);
+            // editor.render(true);
         },
         format(on) {
             monacoEditor.setModelLanguage(editor.getModel(), on ? "javascript" : "plaintext");
             editor.setValue(editor.getValue());
             // Force a render. Todo - do other editors expose this? should this be a separate function?
-            editor.render(true);
+            // editor.render(true);
         },
     };
 }

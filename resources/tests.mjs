@@ -341,26 +341,28 @@ Suites.push({
         console.log(page.querySelector(".monaco-mouse-cursor-text"))
         page.querySelector("#small").click();
         page.querySelector("#unhighlight").click();
+        page.querySelector("#layout").click();
+        await new Promise(resolve => window.requestAnimationFrame(resolve));
     },
     tests: [
         new BenchmarkTestStep("Big", (page) => {
             page.querySelector("#big").click();
-            // page.querySelector("#layout").click();
+            page.querySelector("#layout").click();
         }),
         new BenchmarkTestStep("Unhighlight", (page) => {
-            // page.querySelector("#layout").click();
+            page.querySelector("#layout").click();
         }),
         new BenchmarkTestStep("Highlight", (page) => {
             page.querySelector("#highlight").click();
-            // page.querySelector("#layout").click();
+            page.querySelector("#layout").click();
         }),
         new BenchmarkTestStep("Scroll down", (page) => {
             page.querySelector("#scroll").click();
-            // page.querySelector("#layout").click();
+            page.querySelector("#layout").click();
         }),
         new BenchmarkTestStep("Scroll up", (page) => {
             page.querySelector("#scroll").click();
-            // page.querySelector("#layout").click();
+            page.querySelector("#layout").click();
         }),
     ],
 });
@@ -372,27 +374,29 @@ Suites.push({
         page.querySelector("#create").click();
         await page.waitForElement("#create[disabled]");
         page.querySelector("#small").click();
+        page.querySelector("#layout").click();
+        await new Promise(resolve => window.requestAnimationFrame(resolve));
     },
     tests: [
         new BenchmarkTestStep("Big", (page) => {
             page.querySelector("#big").click();
-            // page.querySelector("#layout").click();
+            page.querySelector("#layout").click();
         }),
         new BenchmarkTestStep("Unhighlight", (page) => {
             page.querySelector("#unhighlight").click();
-            // page.querySelector("#layout").click();
+            page.querySelector("#layout").click();
         }),
         new BenchmarkTestStep("Highlight", (page) => {
             page.querySelector("#highlight").click();
-            // page.querySelector("#layout").click();
+            page.querySelector("#layout").click();
         }),
         new BenchmarkTestStep("Scroll down", (page) => {
             page.querySelector("#scroll").click();
-            // page.querySelector("#layout").click();
+            page.querySelector("#layout").click();
         }),
         new BenchmarkTestStep("Scroll up", (page) => {
             page.querySelector("#scroll").click();
-            // page.querySelector("#layout").click();
+            page.querySelector("#layout").click();
         }),
     ],
 });
@@ -404,27 +408,29 @@ Suites.push({
         page.querySelector("#create").click();
         await page.waitForElement("#create[disabled]");
         page.querySelector("#small").click();
+        page.querySelector("#layout").click();
+        await new Promise(resolve => window.requestAnimationFrame(resolve));
     },
     tests: [
         new BenchmarkTestStep("Big", (page) => {
             page.querySelector("#big").click();
-            // page.querySelector("#layout").click();
+            page.querySelector("#layout").click();
         }),
         new BenchmarkTestStep("Unhighlight", (page) => {
             page.querySelector("#unhighlight").click();
-            // page.querySelector("#layout").click();
+            page.querySelector("#layout").click();
         }),
         new BenchmarkTestStep("Highlight", (page) => {
             page.querySelector("#highlight").click();
-            // page.querySelector("#layout").click();
+            page.querySelector("#layout").click();
         }),
         new BenchmarkTestStep("Scroll down", (page) => {
             page.querySelector("#scroll").click();
-            // page.querySelector("#layout").click();
+            page.querySelector("#layout").click();
         }),
         new BenchmarkTestStep("Scroll up", (page) => {
             page.querySelector("#scroll").click();
-            // page.querySelector("#layout").click();
+            page.querySelector("#layout").click();
         }),
     ],
 });
