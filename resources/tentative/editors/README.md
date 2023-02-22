@@ -17,6 +17,7 @@ rm -r monaco-editor-built/min/vs/language/html monaco-editor-built/min/vs/langua
 
 ```
 
+Todo - There may be an oppurtunity to remove some more files from `monaco-editor-built/**/*.nls.*`
 Developing
 
 ```

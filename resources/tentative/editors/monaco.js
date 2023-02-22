@@ -4,6 +4,7 @@ import loader from "@monaco-editor/loader";
 
 // In local development use the current directory to load monaco sources. Else go up one directory.
 const path = location.pathname.includes("/dist/") ? "../monaco-editor-built/min/vs" : "./monaco-editor-built/min/vs";
+loader.config({ paths: { vs: path } });
 const loaderInit = loader.init();
 
 export default async function (element, value) {
