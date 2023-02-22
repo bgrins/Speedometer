@@ -130,11 +130,10 @@
             import { code as smalltext } from "./smalltext.js";
             import { code as bigtext } from "./bigtext.js";
             import editor from "./codemirror.js";
+
             let editorContainer = document.querySelector("#editor");
             let editorInstance = null;
             let editorPromise = null;
-            let currentSize = null;
-            let currentFormatting = unhighlight;
 
             let buttons = {
                 create: document.querySelector("#create"),
@@ -157,7 +156,10 @@
                     editorPromise = editor(editorContainer);
                     editorPromise.then((instance) => {
                         editorInstance = instance;
-                        buttons.create.setAttribute("disabled", "true");
+                        editorInstance.ready.then(() => {
+                            buttons.create.setAttribute("disabled", "true");
+                            buttons.highlight.classList.add("active", "true");
+                        });
                     });
                 }
             });
@@ -171,39 +173,22 @@
             function highlight() {
                 buttons.unhighlight.classList.toggle("active", false);
                 buttons.highlight.classList.toggle("active", true);
-                // Prevent re-running layout when there's not a change
-                if (currentFormatting !== highlight) {
-                    editorInstance.format(true);
-                }
-                currentFormatting = highlight;
+                editorInstance.format(true);
             }
             function unhighlight() {
                 buttons.unhighlight.classList.toggle("active", true);
                 buttons.highlight.classList.toggle("active", false);
-                // Prevent re-running layout when there's not a change
-                if (currentFormatting !== unhighlight) {
-                    editorInstance.format(false);
-                }
-                currentFormatting = unhighlight;
+                editorInstance.format(false);
             }
             function big() {
                 buttons.small.classList.toggle("active", false);
                 buttons.big.classList.toggle("active", true);
-                // Prevent re-running layout when there's not a change
-                if (currentSize !== big) {
-                    editorInstance.setValue(bigtext);
-                }
-                currentSize = big;
+                editorInstance.setValue(bigtext);
             }
             function small() {
                 buttons.small.classList.toggle("active", true);
                 buttons.big.classList.toggle("active", false);
-                // Prevent re-running layout when there's not a change
-                if (currentSize !== small) {
-                    editorInstance.setValue(smalltext);
-                    layout();
-                }
-                currentSize = small;
+                editorInstance.setValue(smalltext);
             }
 
             function scroll() {

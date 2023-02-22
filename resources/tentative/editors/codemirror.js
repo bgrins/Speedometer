@@ -16,10 +16,10 @@ export default async function (element, value) {
 
   // First we configured with javascript, then switch back to
   // plaintext.
-  extensions.pop();
-  view.dispatch({
-    effects: StateEffect.reconfigure.of(extensions),
-  });
+  // extensions.pop();
+  // view.dispatch({
+  //   effects: StateEffect.reconfigure.of(extensions),
+  // });
 
   return {
     editor: view,
