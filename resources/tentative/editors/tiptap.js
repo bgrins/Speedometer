@@ -26,6 +26,7 @@ export default async function (element, value) {
         },
         setValue(value) {
             editor.commands.setContent(value);
+            element.scrollTop = 0;
         },
         format(on) {
             editor.commands.selectAll();
