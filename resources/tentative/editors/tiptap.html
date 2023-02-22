@@ -10,6 +10,16 @@
     <body>
         <div id="app">
             <div id="controls">
+                <button id="create">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+                        <path d="M9 12l6 0"></path>
+                        <path d="M12 9l0 6"></path>
+                    </svg>
+                    Create
+                </button>
+                &nbsp;
                 <button id="big">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -91,6 +101,28 @@
                     </svg>
                     Unhighlight
                 </button>
+                &nbsp;
+                <button id="scroll">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-line-height" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M3 8l3 -3l3 3"></path>
+                        <path d="M3 16l3 3l3 -3"></path>
+                        <path d="M6 5l0 14"></path>
+                        <path d="M13 6l7 0"></path>
+                        <path d="M13 12l7 0"></path>
+                        <path d="M13 18l7 0"></path>
+                    </svg>
+                    Scroll
+                </button>
+                &nbsp;
+                <button id="layout">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-refresh-dot" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4"></path>
+                        <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"></path>
+                        <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                    </svg>
+                </button>
             </div>
             <div id="editor"></div>
         </div>
@@ -98,67 +130,151 @@
             import { text as smalltext } from "./smalltext.js";
             import { text as bigtext } from "./bigtext.js";
             import editor from "./tiptap.js";
-            let el = document.querySelector("#editor");
-            let ed = editor(el);
+            let editorContainer = document.querySelector("#editor");
+            let editorInstance = null;
+            let editorPromise = null;
             let currentSize = null;
             let currentFormatting = unhighlight;
 
+            let buttons = {
+                create: document.querySelector("#create"),
+                highlight: document.querySelector("#highlight"),
+                unhighlight: document.querySelector("#unhighlight"),
+                big: document.querySelector("#big"),
+                small: document.querySelector("#small"),
+                scroll: document.querySelector("#scroll"),
+                layout: document.querySelector("#layout"),
+            };
+            buttons.scroll.addEventListener("click", scroll);
+            buttons.highlight.addEventListener("click", highlight);
+            buttons.unhighlight.addEventListener("click", unhighlight);
+            buttons.big.addEventListener("click", big);
+            buttons.small.addEventListener("click", small);
+            buttons.layout.addEventListener("click", layout);
+
+            buttons.create.addEventListener("click", (e) => {
+                if (!editorPromise) {
+                    editorPromise = editor(editorContainer);
+                    editorPromise.then((instance) => {
+                        editorInstance = instance;
+                        buttons.create.setAttribute("disabled", "true");
+                    });
+                }
+            });
+
             function layout() {
-                // Todo - does this make sense to do?
+                // Todo - is this necessary with the runner?
                 const body = document.body.getBoundingClientRect();
                 layout.e = document.elementFromPoint((body.width / 2) | 0, (body.height / 2) | 0);
             }
+
             function highlight() {
+                buttons.unhighlight.classList.toggle("active", false);
+                buttons.highlight.classList.toggle("active", true);
                 // Prevent re-running layout when there's not a change
                 if (currentFormatting !== highlight) {
-                    ed.format(true);
-                    layout();
+                    editorInstance.format(true);
                 }
                 currentFormatting = highlight;
             }
             function unhighlight() {
+                buttons.unhighlight.classList.toggle("active", true);
+                buttons.highlight.classList.toggle("active", false);
                 // Prevent re-running layout when there's not a change
                 if (currentFormatting !== unhighlight) {
-                    ed.format(false);
-                    layout();
+                    editorInstance.format(false);
                 }
                 currentFormatting = unhighlight;
             }
             function big() {
+                buttons.small.classList.toggle("active", false);
+                buttons.big.classList.toggle("active", true);
                 // Prevent re-running layout when there's not a change
                 if (currentSize !== big) {
-                    ed.setValue(bigtext);
-                    layout();
+                    editorInstance.setValue(bigtext);
                 }
                 currentSize = big;
             }
             function small() {
+                buttons.small.classList.toggle("active", true);
+                buttons.big.classList.toggle("active", false);
                 // Prevent re-running layout when there's not a change
                 if (currentSize !== small) {
-                    ed.setValue(smalltext);
+                    editorInstance.setValue(smalltext);
                     layout();
                 }
                 currentSize = small;
             }
 
-            // function stressTest() {
-            //     big();
-            //     highlight();
-            //     const max = ed.getScrollHeight();
-            //     for (const step of [5000, 10000]) {
-            //         for (let i = 0; i < max; i += step) {
-            //             ed.setScrollTop(i);
-            //             ed.render();
-            //             layout();
-            //         }
-            //         ed.setScrollTop(0);
+            function scroll() {
+                let isTop = editorInstance.getScrollTop() == 0;
+                editorInstance.setScrollTop(isTop ? editorInstance.getScrollHeight() : 0);
+            }
+
+            // import { text as smalltext } from "./smalltext.js";
+            // import { text as bigtext } from "./bigtext.js";
+            // import editor from "./tiptap.js";
+            // let el = document.querySelector("#editor");
+            // let ed = editor(el);
+            // let currentSize = null;
+            // let currentFormatting = unhighlight;
+
+            // function layout() {
+            //     // Todo - does this make sense to do?
+            //     const body = document.body.getBoundingClientRect();
+            //     layout.e = document.elementFromPoint((body.width / 2) | 0, (body.height / 2) | 0);
+            // }
+            // function highlight() {
+            //     // Prevent re-running layout when there's not a change
+            //     if (currentFormatting !== highlight) {
+            //         ed.format(true);
+            //         layout();
             //     }
+            //     currentFormatting = highlight;
+            // }
+            // function unhighlight() {
+            //     // Prevent re-running layout when there's not a change
+            //     if (currentFormatting !== unhighlight) {
+            //         ed.format(false);
+            //         layout();
+            //     }
+            //     currentFormatting = unhighlight;
+            // }
+            // function big() {
+            //     // Prevent re-running layout when there's not a change
+            //     if (currentSize !== big) {
+            //         ed.setValue(bigtext);
+            //         layout();
+            //     }
+            //     currentSize = big;
+            // }
+            // function small() {
+            //     // Prevent re-running layout when there's not a change
+            //     if (currentSize !== small) {
+            //         ed.setValue(smalltext);
+            //         layout();
+            //     }
+            //     currentSize = small;
             // }
 
-            document.querySelector("#highlight").addEventListener("click", highlight);
-            document.querySelector("#unhighlight").addEventListener("click", unhighlight);
-            document.querySelector("#big").addEventListener("click", big);
-            document.querySelector("#small").addEventListener("click", small);
+            // // function stressTest() {
+            // //     big();
+            // //     highlight();
+            // //     const max = ed.getScrollHeight();
+            // //     for (const step of [5000, 10000]) {
+            // //         for (let i = 0; i < max; i += step) {
+            // //             ed.setScrollTop(i);
+            // //             ed.render();
+            // //             layout();
+            // //         }
+            // //         ed.setScrollTop(0);
+            // //     }
+            // // }
+
+            // document.querySelector("#highlight").addEventListener("click", highlight);
+            // document.querySelector("#unhighlight").addEventListener("click", unhighlight);
+            // document.querySelector("#big").addEventListener("click", big);
+            // document.querySelector("#small").addEventListener("click", small);
         </script>
     </body>
 </html>

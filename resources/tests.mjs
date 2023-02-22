@@ -347,33 +347,36 @@ Suites.push({
         }),
     ],
 });
-// Suites.push({
-//     name: "Editor-TipTap",
-//     url: "tentative/editors/dist/tiptap.html",
-//     async prepare(page) {
-//         let editor = await page.waitForElement("#editor > *");
-//         editor.focus();
-//     },
-//     tests: [
-//         new BenchmarkTestStep(`Render`, (page) => {
-//             const big = page.querySelector("#big");
-//             const small = page.querySelector("#small");
-//             const highlight = page.querySelector("#highlight");
-//             const unhighlight = page.querySelector("#unhighlight");
-
-//             let configurations = [
-//                 [big, highlight],
-//                 [big, unhighlight],
-//                 [small, highlight],
-//                 [small, unhighlight],
-//             ];
-//             for (let j = 0; j < configurations.length; j++) {
-//                 configurations[j][0].click();
-//                 configurations[j][1].click();
-//             }
-//         }),
-//     ],
-// });
+Suites.push({
+    name: "Editor-TipTap",
+    url: "tentative/editors/dist/tiptap.html",
+    async prepare(page) {
+        page.querySelector("#create").click();
+        await page.waitForElement("#create[disabled]");
+    },
+    tests: [
+        new BenchmarkTestStep(`Big`, (page) => {
+            page.querySelector("#big").click();
+            page.querySelector("#layout").click();
+        }),
+        new BenchmarkTestStep(`Highlight`, (page) => {
+            page.querySelector("#highlight").click();
+            page.querySelector("#layout").click();
+        }),
+        new BenchmarkTestStep(`Scroll down`, (page) => {
+            page.querySelector("#scroll").click();
+            page.querySelector("#layout").click();
+        }),
+        new BenchmarkTestStep(`Scroll up`, (page) => {
+            page.querySelector("#scroll").click();
+            page.querySelector("#layout").click();
+        }),
+        new BenchmarkTestStep(`Small`, (page) => {
+            page.querySelector("#small").click();
+            page.querySelector("#layout").click();
+        }),
+    ],
+});
 
 Suites.push({
     name: "React-Stockcharts",

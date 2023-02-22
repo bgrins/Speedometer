@@ -23,6 +23,11 @@ export default async function (element, value) {
         wordWrap: "wordWrapColumn",
         wordWrapColumn: 80,
     });
+
+    // We want to start as plaintext but we want the javascript worker to get
+    // ready. So first set to JS, then back to plaintext.
+    monacoEditor.setModelLanguage(editor.getModel(), "plaintext");
+
     return {
         editor,
         ready: new Promise(async (resolve) => {
