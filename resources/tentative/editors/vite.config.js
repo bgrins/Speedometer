@@ -7,6 +7,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
+        codemirror: resolve(__dirname, 'codemirror.html'),
         main: resolve(__dirname, 'index.html'),
         monaco: resolve(__dirname, 'monaco.html'),
         tiptap: resolve(__dirname, 'tiptap.html'),

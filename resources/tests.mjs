@@ -347,6 +347,39 @@ Suites.push({
         }),
     ],
 });
+
+
+Suites.push({
+    name: "Editor-CodeMirror",
+    url: "tentative/editors/dist/codemirror.html",
+    async prepare(page) {
+        page.querySelector("#create").click();
+        await page.waitForElement("#create[disabled]");
+    },
+    tests: [
+        new BenchmarkTestStep(`Big`, (page) => {
+            page.querySelector("#big").click();
+            page.querySelector("#layout").click();
+        }),
+        new BenchmarkTestStep(`Highlight`, (page) => {
+            page.querySelector("#highlight").click();
+            page.querySelector("#layout").click();
+        }),
+        new BenchmarkTestStep(`Scroll down`, (page) => {
+            page.querySelector("#scroll").click();
+            page.querySelector("#layout").click();
+        }),
+        new BenchmarkTestStep(`Scroll up`, (page) => {
+            page.querySelector("#scroll").click();
+            page.querySelector("#layout").click();
+        }),
+        new BenchmarkTestStep(`Small`, (page) => {
+            page.querySelector("#small").click();
+            page.querySelector("#layout").click();
+        }),
+    ],
+});
+
 Suites.push({
     name: "Editor-TipTap",
     url: "tentative/editors/dist/tiptap.html",
