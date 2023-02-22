@@ -339,7 +339,6 @@ Suites.push({
         page.querySelector("#create").click();
         await page.waitForElement("#create[disabled]");
         page.querySelector("#small").click();
-        page.querySelector("#unhighlight").click();
         page.querySelector("#layout").click();
     },
     tests: [
