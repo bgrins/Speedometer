@@ -3,18 +3,22 @@ import { StateEffect } from "@codemirror/state";
 // https://codemirror.net/examples/bundle/
 import { javascript } from "@codemirror/lang-javascript";
 
-let extensions = [basicSetup, EditorView.lineWrapping];
 let lang = javascript();
+let extensions = [basicSetup, EditorView.lineWrapping, lang];
 
 export default async function (element, value) {
   let view = new EditorView({
-    extensions: [
-      basicSetup,
-      EditorView.lineWrapping,
-    ],
+    extensions,
     parent: element,
     doc: value,
     wordWrapColumn: 80,
+  });
+
+  // First we configured with javascript, then switch back to
+  // plaintext.
+  extensions.pop();
+  view.dispatch({
+    effects: StateEffect.reconfigure.of(extensions),
   });
 
   return {

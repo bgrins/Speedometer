@@ -1,3 +1,19 @@
+
+# unused module formats:
+node_modules/monaco-editor/esm
+node_modules/monaco-editor/dev
+node_modules/monaco-editor/min-maps
+# unused locales:
+node_modules/monaco-editor/*/vs/editor/editor.main.nls.*.js
+# unused syntax modes:
+node_modules/monaco-editor/*/vs/basic-languages/*
+!node_modules/monaco-editor/*/vs/basic-languages/html
+!node_modules/monaco-editor/*/vs/basic-languages/cpp
+!node_modules/monaco-editor/*/vs/basic-languages/????script
+!node_modules/monaco-editor/*/vs/basic-languages/markdown
+!node_modules/monaco-editor/*/vs/basic-languages/json
+!node_modules/monaco-editor/*/vs/basic-languages/*css
+
 # Logs
 logs
 *.log
