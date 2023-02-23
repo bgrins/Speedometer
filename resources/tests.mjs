@@ -342,6 +342,10 @@ Suites.push({
         // good way to wait for syntax highlighting to complete. So
         // for now this test disables formatting entirely, focusing just
         // on the time to load "big" text and scroll to the bottom/top.
+        // The other challenge is that the syntax highlighting is async
+        // and the runner doesn't have a good way to ensure that we're actually
+        // completing that (i.e. not penalizing browsers which actually get to
+        // it).
         page.querySelector("#create").click();
         await page.waitForElement("#create[disabled]");
     },
