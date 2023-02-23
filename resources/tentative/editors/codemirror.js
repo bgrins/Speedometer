@@ -4,7 +4,7 @@ import { StateEffect } from "@codemirror/state";
 import { javascript } from "@codemirror/lang-javascript";
 
 let lang = javascript();
-let extensions = [basicSetup, EditorView.lineWrapping, lang];
+let extensions = [basicSetup, EditorView.lineWrapping];
 
 export default async function (element, value) {
   let view = new EditorView({

@@ -157,8 +157,8 @@
                     editorPromise.then((instance) => {
                         editorInstance = instance;
                         editorInstance.ready.then(() => {
-                            buttons.create.setAttribute("disabled", "true");
                             buttons.unhighlight.classList.add("active", "true");
+                            buttons.create.setAttribute("disabled", "true");
                         });
                     });
                 }

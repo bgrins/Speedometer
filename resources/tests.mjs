@@ -352,14 +352,10 @@ Suites.push({
     tests: [
         new BenchmarkTestStep("Big", (page) => {
             page.querySelector("#big").click();
-            // Layout is forced in async time for benchmark-runner, so this shouldn't be needed
+            // Layout is forced in async time for benchmark-runner, so this shouldn't be needed?
             page.querySelector("#layout").click();
         }),
         new BenchmarkTestStep("Scroll down", (page) => {
-            page.querySelector("#scroll").click();
-            page.querySelector("#layout").click();
-        }),
-        new BenchmarkTestStep("Scroll up", (page) => {
             page.querySelector("#scroll").click();
             page.querySelector("#layout").click();
         }),
@@ -378,19 +374,11 @@ Suites.push({
             page.querySelector("#big").click();
             page.querySelector("#layout").click();
         }),
-        new BenchmarkTestStep("Unhighlight", (page) => {
-            page.querySelector("#unhighlight").click();
-            page.querySelector("#layout").click();
-        }),
         new BenchmarkTestStep("Highlight", (page) => {
             page.querySelector("#highlight").click();
             page.querySelector("#layout").click();
         }),
         new BenchmarkTestStep("Scroll down", (page) => {
-            page.querySelector("#scroll").click();
-            page.querySelector("#layout").click();
-        }),
-        new BenchmarkTestStep("Scroll up", (page) => {
             page.querySelector("#scroll").click();
             page.querySelector("#layout").click();
         }),
@@ -403,16 +391,10 @@ Suites.push({
     async prepare(page) {
         page.querySelector("#create").click();
         await page.waitForElement("#create[disabled]");
-        page.querySelector("#small").click();
-        page.querySelector("#layout").click();
     },
     tests: [
         new BenchmarkTestStep("Big", (page) => {
             page.querySelector("#big").click();
-            page.querySelector("#layout").click();
-        }),
-        new BenchmarkTestStep("Unhighlight", (page) => {
-            page.querySelector("#unhighlight").click();
             page.querySelector("#layout").click();
         }),
         new BenchmarkTestStep("Highlight", (page) => {
@@ -420,10 +402,6 @@ Suites.push({
             page.querySelector("#layout").click();
         }),
         new BenchmarkTestStep("Scroll down", (page) => {
-            page.querySelector("#scroll").click();
-            page.querySelector("#layout").click();
-        }),
-        new BenchmarkTestStep("Scroll up", (page) => {
             page.querySelector("#scroll").click();
             page.querySelector("#layout").click();
         }),
