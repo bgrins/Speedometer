@@ -344,7 +344,7 @@ Suites.push({
     tests: [
         new BenchmarkTestStep("Big", (page) => {
             page.querySelector("#big").click();
-            page.querySelector("#layout").click();
+            // page.querySelector("#layout").click();
         }),
         // We don't toggle highlighing in the Monaco test, because that recreates
         // the worker, causing network requests
@@ -357,11 +357,11 @@ Suites.push({
         // }),
         new BenchmarkTestStep("Scroll down", (page) => {
             page.querySelector("#scroll").click();
-            page.querySelector("#layout").click();
+            // page.querySelector("#layout").click();
         }),
         new BenchmarkTestStep("Scroll up", (page) => {
             page.querySelector("#scroll").click();
-            page.querySelector("#layout").click();
+            // page.querySelector("#layout").click();
         }),
     ],
 });
