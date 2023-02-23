@@ -19,7 +19,7 @@ export default async function (element, value) {
 
     let editor = monacoEditor.create(element, {
         value: value,
-        language: "javascript",
+        // language: "javascript",
         automaticLayout: true,
         wordWrap: "wordWrapColumn",
         wordWrapColumn: 80,
@@ -27,14 +27,15 @@ export default async function (element, value) {
 
     return {
         editor,
-        ready: new Promise(async (resolve) => {
-            await languageWorkerReady;
-            // editor.focus();
-            // Just debugging if network access can be prevented due to a timing issue 
-            // in worker:
-            await new Promise(r => setTimeout(r, 1000));
-            resolve();
-        }),
+        ready: Promise.resolve(),
+        // ready: new Promise(async (resolve) => {
+        //     await languageWorkerReady;
+        //     // editor.focus();
+        //     // Just debugging if network access can be prevented due to a timing issue 
+        //     // in worker:
+        //     // await new Promise(r => setTimeout(r, 1000));
+        //     resolve();
+        // }),
         getScrollHeight() {
             return editor.getScrollHeight();
         },
@@ -44,18 +45,17 @@ export default async function (element, value) {
         setScrollTop(value) {
             editor.setScrollTop(value);
             // Force a render. Todo - do other editors expose this? should this be a separate function?
-            // editor.render(true);
+            editor.render(true);
         },
         setValue(value) {
             editor.setValue(value);
             // Force a render. Todo - do other editors expose this? should this be a separate function?
-            // editor.render(true);
+            editor.render(true);
         },
         format(on) {
             monacoEditor.setModelLanguage(editor.getModel(), on ? "javascript" : "plaintext");
-            editor.setValue(editor.getValue());
             // Force a render. Todo - do other editors expose this? should this be a separate function?
-            // editor.render(true);
+            editor.render(true);
         },
     };
 }
