@@ -20,8 +20,6 @@ The test simulates a real-world user flow by loading a number of popular editor 
 - "Formatting" the text - in code editors this means turning on syntax highlighting, and in WYSISWYG this means bolding all of the contents
 - Scrolling to the bottom of the editor
 
-While it would be nice to include the overall initialization time in the measurements, certain editors like Monaco create network requests or other asynchronous operations which make the measurement less deterministic. This decision may be revisited if we come up with a good way to do it.
-
 ## Developer Documentation
 
 The app was created with
@@ -37,7 +35,19 @@ The test can be loaded from within the project root using i.e. http://localhost:
 
 ### Notes about Monaco
 
-Todo
+I've really struggled to make this test deterministic.
+The language worker seems to be making network requests in the
+middle of test, and further it's not clear to me if there's a
+good way to wait for syntax highlighting to complete. So
+for now this test disables formatting entirely, focusing just
+on the time to load "big" text and scroll to the bottom/top.
+The other challenge is that the syntax highlighting is async
+and the runner doesn't have a good way to ensure that we're actually
+completing that (i.e. not penalizing browsers which actually get to it)
+
+Some work is stashed at
+https://github.com/bgrins/Speedometer/tree/editors-with-monaco
+
 
 ```
 mkdir monaco-editor-built
@@ -50,6 +60,7 @@ cp -R node_modules/monaco-editor/min-maps monaco-editor-built/min-maps
 rm -r monaco-editor-built/min/vs/language/html monaco-editor-built/min/vs/language/css monaco-editor-built/min/vs/language/json
 
 ```
+
 
 Todo - There may be an oppurtunity to remove some more files from `monaco-editor-built/**/*.nls.*`
 Developing

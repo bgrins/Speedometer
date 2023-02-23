@@ -333,36 +333,6 @@ Suites.push({
 });
 
 Suites.push({
-    name: "Editor-Monaco",
-    url: "tentative/editors/dist/monaco.html",
-    async prepare(page) {
-        // I've really struggled to make this test deterministic.
-        // The language worker seems to be making network requests in the
-        // middle of test, and further it's not clear to me if there's a
-        // good way to wait for syntax highlighting to complete. So
-        // for now this test disables formatting entirely, focusing just
-        // on the time to load "big" text and scroll to the bottom/top.
-        // The other challenge is that the syntax highlighting is async
-        // and the runner doesn't have a good way to ensure that we're actually
-        // completing that (i.e. not penalizing browsers which actually get to
-        // it).
-        page.querySelector("#create").click();
-        await page.waitForElement("#create[disabled]");
-    },
-    tests: [
-        new BenchmarkTestStep("Big", (page) => {
-            page.querySelector("#big").click();
-            // Layout is forced in async time for benchmark-runner, so this shouldn't be needed?
-            page.querySelector("#layout").click();
-        }),
-        new BenchmarkTestStep("Scroll down", (page) => {
-            page.querySelector("#scroll").click();
-            page.querySelector("#layout").click();
-        }),
-    ],
-});
-
-Suites.push({
     name: "Editor-CodeMirror",
     url: "tentative/editors/dist/codemirror.html",
     async prepare(page) {
