@@ -338,8 +338,8 @@ Suites.push({
     async prepare(page) {
         page.querySelector("#create").click();
         await page.waitForElement("#create[disabled]");
-        page.querySelector("#small").click();
-        page.querySelector("#layout").click();
+        // page.querySelector("#small").click();
+        // page.querySelector("#layout").click();
     },
     tests: [
         new BenchmarkTestStep("Big", (page) => {
@@ -372,8 +372,8 @@ Suites.push({
     async prepare(page) {
         page.querySelector("#create").click();
         await page.waitForElement("#create[disabled]");
-        page.querySelector("#small").click();
-        page.querySelector("#layout").click();
+        // page.querySelector("#small").click();
+        // page.querySelector("#layout").click();
     },
     tests: [
         new BenchmarkTestStep("Big", (page) => {

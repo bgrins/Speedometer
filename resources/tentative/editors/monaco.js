@@ -29,7 +29,8 @@ export default async function (element, value) {
         editor,
         ready: new Promise(async (resolve) => {
             await languageWorkerReady;
-            editor.focus();
+            // editor.focus();
+            await new Promise(r => requestAnimationFrame(r));
             resolve();
         }),
         getScrollHeight() {

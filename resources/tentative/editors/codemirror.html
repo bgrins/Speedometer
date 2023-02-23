@@ -153,7 +153,7 @@
 
             buttons.create.addEventListener("click", (e) => {
                 if (!editorPromise) {
-                    editorPromise = editor(editorContainer);
+                    editorPromise = editor(editorContainer, smalltext);
                     editorPromise.then((instance) => {
                         editorInstance = instance;
                         editorInstance.ready.then(() => {
