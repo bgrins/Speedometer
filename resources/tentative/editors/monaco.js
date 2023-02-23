@@ -1,27 +1,29 @@
-// import loader from "@monaco-editor/loader";
-// // In local development use the current directory to load monaco sources. Else go up one directory.
-// loader.config({ paths: { vs: path } });
-// const loaderInit = loader.init();
-
 require.config({ paths: { vs: EDITOR_PATH } });
-window.MonacoEnvironment = { getWorkerUrl: () => proxy };
-
 self.MonacoEnvironment = {
-    getWorkerUrl: () => workerUrl,
+    getWorker: () => worker,
 };
 
-const workerUrl = URL.createObjectURL(
-    new Blob(
-        [
-            `
+const worker = new Worker(
+    URL.createObjectURL(
+        new Blob(
+            [
+                `
     self.MonacoEnvironment = { baseUrl: ${JSON.stringify(new URL(location.pathname.includes("/dist/") ? "../monaco-editor-built/min" : "./monaco-editor-built/min", window.location))} };
-    console.log("in worker");
     importScripts(self.MonacoEnvironment.baseUrl + '/vs/base/worker/workerMain.js');
-`,
-        ],
-        { type: "text/javascript" }
+    postMessage({ type: 'ready' });`,
+            ],
+            { type: "text/javascript" }
+        )
     )
 );
+
+let workerReady = new Promise((resolve) => {
+    worker.addEventListener("message", (e) => {
+        if (e.data.type === "ready") {
+            resolve();
+        }
+    });
+});
 
 const loaderInit = new Promise((resolve) => {
     require(["vs/editor/editor.main"], function () {
@@ -56,11 +58,11 @@ const loaderInit = new Promise((resolve) => {
 
 export default async function (element, value) {
     let { editor: monacoEditor, languages } = await loaderInit;
-    
+
     let editor = monacoEditor.create(element, {
         value: value,
         // language: "javascript",
-        language: "plaintext",
+        // language: "plaintext",
         automaticLayout: true,
         wordWrap: "wordWrapColumn",
         wordWrapColumn: 80,
@@ -68,7 +70,7 @@ export default async function (element, value) {
 
     return {
         editor,
-        ready: Promise.resolve(),
+        ready: workerReady,
         // ready: new Promise((resolve) => {
         //     // https://github.com/microsoft/monaco-editor/issues/115
         //     // This prevents network access in the middle of the test

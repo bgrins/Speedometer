@@ -353,15 +353,15 @@ Suites.push({
         new BenchmarkTestStep("Big", (page) => {
             page.querySelector("#big").click();
             // Layout is forced in async time for benchmark-runner, so this shouldn't be needed
-            // page.querySelector("#layout").click();
+            page.querySelector("#layout").click();
         }),
         new BenchmarkTestStep("Scroll down", (page) => {
             page.querySelector("#scroll").click();
-            // page.querySelector("#layout").click();
+            page.querySelector("#layout").click();
         }),
         new BenchmarkTestStep("Scroll up", (page) => {
             page.querySelector("#scroll").click();
-            // page.querySelector("#layout").click();
+            page.querySelector("#layout").click();
         }),
     ],
 });
