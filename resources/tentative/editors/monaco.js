@@ -30,7 +30,9 @@ export default async function (element, value) {
         ready: new Promise(async (resolve) => {
             await languageWorkerReady;
             // editor.focus();
-            await new Promise(r => requestAnimationFrame(r));
+            // Just debugging if network access can be prevented due to a timing issue 
+            // in worker:
+            await new Promise(r => setTimeout(r, 1000));
             resolve();
         }),
         getScrollHeight() {
