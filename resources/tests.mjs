@@ -353,7 +353,10 @@ Suites.push({
             page.querySelector("#layout").click();
         }),
         new BenchmarkTestStep("Unhighlight", (page) => {
-            page.querySelector("#highlight").click();
+            // page.querySelector("#highlight").click();
+            page.querySelector(".cm-editor").focus();
+            page._frame.contentDocument.execCommand('insertText', false ,'// text;\n');
+
             page.querySelector("#layout").click();
         }),
     ],
