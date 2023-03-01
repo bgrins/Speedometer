@@ -1,5 +1,7 @@
 *.mode*
 *.pyc
+.parcel-cache
 .DS_Store
 .directory
+resources/todomvc/architecture-examples/react-redux/node_modules
 /node_modules
