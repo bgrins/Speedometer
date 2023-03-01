@@ -340,16 +340,20 @@ Suites.push({
         await page.waitForElement("#create[disabled]");
     },
     tests: [
-        new BenchmarkTestStep("Big", (page) => {
-            page.querySelector("#big").click();
+        new BenchmarkTestStep("Small", (page) => {
+            page.querySelector("#small").click();
             page.querySelector("#layout").click();
         }),
         new BenchmarkTestStep("Highlight", (page) => {
             page.querySelector("#highlight").click();
             page.querySelector("#layout").click();
         }),
-        new BenchmarkTestStep("Scroll down", (page) => {
-            page.querySelector("#scroll").click();
+        new BenchmarkTestStep("Big", (page) => {
+            page.querySelector("#big").click();
+            page.querySelector("#layout").click();
+        }),
+        new BenchmarkTestStep("Unhighlight", (page) => {
+            page.querySelector("#highlight").click();
             page.querySelector("#layout").click();
         }),
     ],
@@ -363,16 +367,20 @@ Suites.push({
         await page.waitForElement("#create[disabled]");
     },
     tests: [
-        new BenchmarkTestStep("Big", (page) => {
-            page.querySelector("#big").click();
+        new BenchmarkTestStep("Small", (page) => {
+            page.querySelector("#small").click();
             page.querySelector("#layout").click();
         }),
         new BenchmarkTestStep("Highlight", (page) => {
             page.querySelector("#highlight").click();
             page.querySelector("#layout").click();
         }),
-        new BenchmarkTestStep("Scroll down", (page) => {
-            page.querySelector("#scroll").click();
+        new BenchmarkTestStep("Big", (page) => {
+            page.querySelector("#big").click();
+            page.querySelector("#layout").click();
+        }),
+        new BenchmarkTestStep("Unhighlight", (page) => {
+            page.querySelector("#highlight").click();
             page.querySelector("#layout").click();
         }),
     ],
