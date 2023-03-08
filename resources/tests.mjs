@@ -336,10 +336,14 @@ Suites.push({
     name: "Editor-CodeMirror",
     url: "tentative/editors/dist/codemirror.html",
     async prepare(page) {
-        page.querySelector("#create").click();
-        await page.waitForElement("#create[disabled]");
+        // page.querySelector("#create").click();
+        // await page.waitForElement("#create[disabled]");
     },
     tests: [
+        new BenchmarkTestStep("Create", (page) => {
+            page.querySelector("#create").click();
+            page.querySelector("#layout").click();
+        }),
         new BenchmarkTestStep("Big", (page) => {
             page.querySelector("#big").click();
             page.querySelector("#layout").click();
@@ -355,10 +359,14 @@ Suites.push({
     name: "Editor-TipTap",
     url: "tentative/editors/dist/tiptap.html",
     async prepare(page) {
-        page.querySelector("#create").click();
-        await page.waitForElement("#create[disabled]");
+        // page.querySelector("#create").click();
+        // await page.waitForElement("#create[disabled]");
     },
     tests: [
+        new BenchmarkTestStep("Create", (page) => {
+            page.querySelector("#create").click();
+            page.querySelector("#layout").click();
+        }),
         new BenchmarkTestStep("Big", (page) => {
             page.querySelector("#big").click();
             page.querySelector("#layout").click();
