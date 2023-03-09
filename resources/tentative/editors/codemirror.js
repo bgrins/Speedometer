@@ -6,7 +6,7 @@ import { javascript } from "@codemirror/lang-javascript";
 let lang = javascript();
 let extensions = [basicSetup, EditorView.lineWrapping];
 
-export default async function (element, value) {
+export default function (element, value) {
     let view = new EditorView({
         extensions,
         parent: element,
@@ -16,8 +16,6 @@ export default async function (element, value) {
 
     return {
         editor: view,
-        // Anything before this promise resolves will happen before timing starts
-        ready: Promise.resolve(),
         getScrollHeight() {
             return element.scrollHeight;
         },
