@@ -16264,7 +16264,7 @@ const StarterKit = Extension.create({
     return extensions2;
   }
 });
-async function editor(element, value) {
+function editor(element, value) {
   let editor2 = new Editor({
     element,
     extensions: [StarterKit],
@@ -16277,8 +16277,6 @@ async function editor(element, value) {
   });
   return {
     editor: editor2,
-    // Anything before this promise resolves will happen before timing starts
-    ready: Promise.resolve(),
     getScrollHeight() {
       return element.scrollHeight;
     },
@@ -16305,7 +16303,6 @@ async function editor(element, value) {
 }
 let editorContainer = document.querySelector("#editor");
 let editorInstance = null;
-let editorPromise = null;
 let buttons = {
   create: document.querySelector("#create"),
   highlight: document.querySelector("#highlight"),
@@ -16322,15 +16319,10 @@ buttons.big.addEventListener("click", big);
 buttons.small.addEventListener("click", small);
 buttons.layout.addEventListener("click", layout);
 buttons.create.addEventListener("click", (e) => {
-  if (!editorPromise) {
-    editorPromise = editor(editorContainer);
-    editorPromise.then((instance) => {
-      editorInstance = instance;
-      editorInstance.ready.then(() => {
-        buttons.unhighlight.classList.add("active", "true");
-        buttons.create.setAttribute("disabled", "true");
-      });
-    });
+  if (!editorInstance) {
+    editorInstance = editor(editorContainer);
+    buttons.unhighlight.classList.add("active", "true");
+    buttons.create.setAttribute("disabled", "true");
   }
 });
 function layout() {
