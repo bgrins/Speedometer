@@ -26,7 +26,7 @@ export default function serve(port) {
         const paths = [STATIC_PATH, url];
         if (url.endsWith("/"))
             paths.push("index.html");
-        const filePath = path.join(...paths);
+        const filePath = path.join(...paths).split("?")[0];
         const pathTraversal = !filePath.startsWith(STATIC_PATH);
         const exists = await fs.promises.access(filePath).then(...toBool);
         const found = !pathTraversal && exists;
