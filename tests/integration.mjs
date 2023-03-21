@@ -1,11 +1,9 @@
 #! /usr/bin/env node
 /* eslint-disable-next-line  no-unused-vars */
-import { argv } from "node:process";
 import serve from "./server.mjs";
 import { Builder, Capabilities } from "selenium-webdriver";
 import commandLineArgs from "command-line-args";
 import commandLineUsage from "command-line-usage";
-import assert from "assert";
 const optionDefinitions = [
     { name: "browser", type: String, description: "Set the browser to test, choices are [safari, firefox, chrome]. By default the $BROWSER env variable is used." },
     { name: "port", type: Number, defaultValue: 8010, description: "Set the test-server port, The default value is 8010." },
@@ -35,10 +33,12 @@ function printHelp(message = "") {
 
 const options = commandLineArgs(optionDefinitions);
 
-if ("help" in options) printHelp();
+if ("help" in options)
+    printHelp();
 
 const BROWSER = options?.browser || process.env.BROWSER;
-if (!BROWSER) printHelp("No browser specified, use $BROWSER or --browser");
+if (!BROWSER)
+    printHelp("No browser specified, use $BROWSER or --browser");
 
 let capabilities;
 switch (BROWSER) {
