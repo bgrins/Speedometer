@@ -69,7 +69,7 @@ async function test() {
     driver.manage().window().setRect({ width: 1024, height: 768 });
 
     try {
-        await driver.get(`http://localhost:${PORT}/index.html?iterationCount=1`);
+        await driver.get(`http://localhost:${PORT}/index.html`);
 
         // Let things settle and then start the test
         await new Promise((resolve) => setTimeout(resolve, 1000));
