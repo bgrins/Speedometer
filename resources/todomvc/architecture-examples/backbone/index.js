@@ -1,5 +1,10 @@
-
-        load("shell-polyfill-hack.js")
+const reportResults = globalThis.reportResults || (() => {});
+reportResults({
+    suite: "backbone",
+    step: "load",
+    time: 0
+})
+        loadRelativeToScript("shell-polyfill-hack.js")
 /*<!doctype html>
 <html lang="en" data-framework="backbonejs">
     <head>
@@ -83,16 +88,16 @@
 
 
         var start = performance.now();
-        load("dist/jquery.js")
-        load("dist/underscore.js")
-        load("dist/backbone.js")
-        load("dist/sync/backbone.sync.js")
-        load("dist/models/todo.js")
-        load("dist/collections/todos.js")
-        load("dist/views/todo-view.js")
-        load("dist/views/app-view.js")
-        load("dist/routers/router.js")
-        load("dist/app.js")
+        loadRelativeToScript("dist/jquery.js")
+        loadRelativeToScript("dist/underscore.js")
+        loadRelativeToScript("dist/backbone.js")
+        loadRelativeToScript("dist/sync/backbone.sync.js")
+        loadRelativeToScript("dist/models/todo.js")
+        loadRelativeToScript("dist/collections/todos.js")
+        loadRelativeToScript("dist/views/todo-view.js")
+        loadRelativeToScript("dist/views/app-view.js")
+        loadRelativeToScript("dist/routers/router.js")
+        loadRelativeToScript("dist/app.js")
 
         window.Backbone.sync  = () => {};
         while (timeoutHandlers.length > 0) {
