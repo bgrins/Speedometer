@@ -16,7 +16,7 @@ if ("drainMicrotasks" in globalThis) {
     print("v8")
     // run with --allow-natives-syntax
     globalThis["drainJobQueue"] = eval("() => { %PerformMicrotaskCheckpoint(); }")
-} else {
+} else if (!("drainJobQueue" in globalThis)) {
     globalThis["drainJobQueue"] = () => {}
 }
 

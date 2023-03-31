@@ -20,7 +20,7 @@ if ("drainMicrotasks" in globalThis) {
   globalThis["drainJobQueue"] = eval(
     "() => { %PerformMicrotaskCheckpoint(); }"
   );
-} else {
+} else if (!("drainJobQueue" in globalThis)) {
   globalThis["drainJobQueue"] = () => {};
 } // Helper class for debugging
 

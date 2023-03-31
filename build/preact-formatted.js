@@ -755,7 +755,7 @@ if ("drainMicrotasks" in globalThis) {
   globalThis["drainJobQueue"] = eval(
     "() => { %PerformMicrotaskCheckpoint(); }"
   );
-} else {
+} else if (!("drainJobQueue" in globalThis)) {
   globalThis["drainJobQueue"] = () => {};
 }
 var section = document.createElement("section");
