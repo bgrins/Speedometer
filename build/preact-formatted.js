@@ -42,7 +42,7 @@ if (!("window" in globalThis)) {
   globalThis.dispatchEvent = () => null;
   globalThis.addEventListener = (type, f) => {
     //backtrace();
-    print("addEventListener: " + type);
+    console.log("addEventListener: " + type);
     eventListeners[type] = f;
   };
   globalThis.removeEventListener = () => null;
@@ -524,7 +524,7 @@ if (!("window" in globalThis)) {
       if (sel == ".edit") {
         return this.getElementsByClassName("edit")[0];
       }
-      print("querySelector", sel);
+      console.log("querySelector", sel);
     }
     getAttributeNode() {}
     get style() {
@@ -693,7 +693,7 @@ if (!("window" in globalThis)) {
       return new Node();
     },
     querySelector(sel) {
-      print("querySelector", sel);
+      console.log("querySelector", sel);
       if (sel == "app-root") {
         return document.body.childNodes[0];
       } else if (sel == 'meta[name="todomvc/config/environment"]') {
@@ -707,7 +707,7 @@ if (!("window" in globalThis)) {
       }
     },
     querySelectorAll(sel) {
-      print("querySelectorAll", sel);
+      console.log("querySelectorAll", sel);
       return [];
     },
     getElementById(id) {
@@ -755,6 +755,8 @@ if ("drainMicrotasks" in globalThis) {
   globalThis["drainJobQueue"] = eval(
     "() => { %PerformMicrotaskCheckpoint(); }"
   );
+} else {
+  globalThis["drainJobQueue"] = () => {};
 }
 var section = document.createElement("section");
 section.id = "root";
@@ -2798,7 +2800,7 @@ document.body.appendChild(section);
 
   render(createElement(App, null), document.querySelector(".todoapp"));
 })();
-//# sourceMappingURL=app.js.map;
+
 drainJobQueue();
 
 function benchmark() {

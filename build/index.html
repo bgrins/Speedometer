@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>ShellUI</title>
+        <link rel="icon" href="resources/favicon.png" />
+    </head>
+    <body>
+      <script type="module">
+        let scripts = [
+          "backbone.js",
+          "preact.js",
+          "react.js",
+          "react-redux.js"
+        ];
+        for (let script of scripts) {
+          var button = document.createElement("button");
+          button.textContent = script;
+          button.onclick = getWorkerForScript.bind(null, script);
+          document.body.append(button);
+        }
+        function getWorkerForScript(script) {
+          let worker = new Worker(script);
+          worker.onmessage = function(e) {
+            console.log(e.data);
+          };
+          return worker;
+        }
+      </script>
+    </body>
+</html>

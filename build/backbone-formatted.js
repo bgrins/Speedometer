@@ -41,7 +41,7 @@ if (!("window" in globalThis)) {
   globalThis.dispatchEvent = () => null;
   globalThis.addEventListener = (type, f) => {
     //backtrace();
-    print("addEventListener: " + type);
+    console.log("addEventListener: " + type);
     eventListeners[type] = f;
   };
   globalThis.removeEventListener = () => null;
@@ -14075,7 +14075,7 @@ var start = performance.now();
 
   return _;
 }); //     Backbone.js 1.4.1
-//# sourceMappingURL=underscore-umd.js.map;
+
 // Load contents of ../resources/todomvc/architecture-examples/backbone/dist/backbone.js
 //     (c) 2010-2022 Jeremy Ashkenas and DocumentCloud
 //     Backbone may be freely distributed under the MIT license.

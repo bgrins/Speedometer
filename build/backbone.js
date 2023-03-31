@@ -41,7 +41,7 @@ if (!("window" in globalThis)) {
     globalThis.dispatchEvent = () => null;
     globalThis.addEventListener = (type, f) => {
     //backtrace();
-        print("addEventListener: " + type);
+        console.log("addEventListener: " + type);
         eventListeners[type] = f
     }
     globalThis.removeEventListener = () => null;
@@ -13654,7 +13654,7 @@ return jQuery;
   return _;
 
 })));
-//# sourceMappingURL=underscore-umd.js.map;
+
 ;
         
 

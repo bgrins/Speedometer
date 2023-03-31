@@ -18,6 +18,8 @@ if ("drainMicrotasks" in globalThis) {
     print("v8")
     // run with --allow-natives-syntax
     globalThis["drainJobQueue"] = eval("() => { %PerformMicrotaskCheckpoint(); }")
+} else {
+    globalThis["drainJobQueue"] = () => {}
 }
 
 
@@ -503,7 +505,7 @@ if (!("window" in globalThis)) {
                 return this.getElementsByClassName("edit")[0]
            }
 
-           print("querySelector", sel)
+           console.log("querySelector", sel)
         }
         getAttributeNode() {}
         get style() {
@@ -671,7 +673,7 @@ if (!("window" in globalThis)) {
            return new Node;
         },
         querySelector(sel) {
-           print("querySelector", sel)
+           console.log("querySelector", sel)
            if (sel == "app-root") {
                 return document.body.childNodes[0]
            }
@@ -687,7 +689,7 @@ if (!("window" in globalThis)) {
 
         },
         querySelectorAll(sel) {
-            print("querySelectorAll", sel)
+            console.log("querySelectorAll", sel)
             return []
         },
         getElementById(id) {
@@ -14524,7 +14526,7 @@ function App() {
 
 /******/ })()
 ;
-//# sourceMappingURL=app.bundle.js.map;
+
 ;
 drainJobQueue()
 function benchmark() {
