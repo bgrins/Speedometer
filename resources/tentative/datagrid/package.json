@@ -1,0 +1,17 @@
+{
+  "name": "datagrid",
+  "private": "true",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "source": "public/index.html",
+  "scripts": {
+    "dev": "cp public/sqlite* dist && parcel",
+    "build": "parcel build --public-url ./",
+    "preview": "parcel serve",
+    "vendor": "./vendor_sqlite.sh"
+  },
+  "devDependencies": {
+    "parcel": "^2.8.3"
+  }
+}
