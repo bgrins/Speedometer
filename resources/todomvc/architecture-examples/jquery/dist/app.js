@@ -45,7 +45,7 @@ jQuery(function ($) {
             $("#main").toggle(todoCount > 0);
             $("#footer").toggle(todoCount > 0);
 
-            if (todoCount > 0) {
+            // if (todoCount > 0) {
                 $("#todo-list").html(this.todoTemplate(currentTodos));
                 $("#toggle-all").prop("checked", activeTodoCount === 0);
                 $("#footer").html(this.footerTemplate({
@@ -54,7 +54,7 @@ jQuery(function ($) {
                     completedTodos: completedTodoCount,
                     filter: this.filter,
                 }));
-            }
+            // }
 
             $("#new-todo").trigger("focus");
         },
