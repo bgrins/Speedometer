@@ -37,17 +37,18 @@ jQuery(function ($) {
                 .on("click", ".destroy", this.handleTodoButton.bind(this));
         },
         render: function () {
+            // console.trace();
+            let start = performance.now();
             const currentTodos = this.getFilteredTodos();
             const activeTodoCount = this.getActiveTodos().length;
             const todoCount = this.todos.length;
             const completedTodoCount = todoCount - activeTodoCount;
-
-            $("#main").toggle(todoCount > 0);
-            $("#footer").toggle(todoCount > 0);
+            $("#toggle-all").prop("checked", activeTodoCount === 0);
+            console.log("render prereq", performance.now() - start);
+            start = performance.now();
+            $("#todo-list").html(this.todoTemplate(currentTodos));
 
             if (todoCount > 0) {
-                $("#todo-list").html(this.todoTemplate(currentTodos));
-                $("#toggle-all").prop("checked", activeTodoCount === 0);
                 $("#footer").html(this.footerTemplate({
                     activeTodoCount: activeTodoCount,
                     activeTodoWord: pluralize(activeTodoCount, "item"),
@@ -56,7 +57,10 @@ jQuery(function ($) {
                 }));
             }
 
-            $("#new-todo").trigger("focus");
+            $("#main").toggle(todoCount > 0);
+            $("#footer").toggle(todoCount > 0);
+            // $("#new-todo").trigger("focus");
+            console.log("render second", performance.now() - start);
         },
         getActiveTodos: function () {
             return this.todos.filter(function (todo) {
@@ -107,7 +111,9 @@ jQuery(function ($) {
         handleTodoInput: function (e) {
             if (e.key !== "Enter")
                 return;
-
+            window.numCalls = (window.numCalls || 0) + 1;
+            console.log("Num calls", window.numCalls)
+            let start = performance.now();
             const $input = $(e.target);
             const text = $input.val().trim();
 
@@ -118,7 +124,10 @@ jQuery(function ($) {
             });
 
             $input.val("");
+            console.log("handleTodoInput", performance.now() - start);
+            start = performance.now();
             this.render();
+            console.log("render", performance.now() - start);
         },
         handleTodoToggle: function (e) {
             const index = this.indexFromEl(e.target);
