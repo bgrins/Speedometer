@@ -341,9 +341,13 @@ Suites.push({
     tests: [
         new BenchmarkTestStep("NavigateToUS", (page) => {
             page.querySelector("#close-toast-link").click();
+            page.layout();
             page.querySelector("#navbar-dropdown-toggle").click();
+            page.layout();
             page.querySelector("#navbar-dropdown-toggle").click();
+            page.layout();
             page.querySelector("#navbar-navlist-us-link").click();
+            page.layout();
         }),
         new BenchmarkTestStep("NavigateToWorld", (page) => {
             page.querySelector("#close-message-link").click();
