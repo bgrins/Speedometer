@@ -213,6 +213,10 @@ class PageElement {
             return null;
         return new PageElement(element);
     }
+
+    scrollIntoView() {
+        this.#node.scrollIntoView();
+    }
 }
 
 function geomeanToScore(geomean) {

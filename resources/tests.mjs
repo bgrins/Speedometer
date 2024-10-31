@@ -96,14 +96,18 @@ Suites.push({
 
     },
     tests: [
+        // there were some responsive styles, but the menu self-closes when clicking items
+        // so the test was dominated by this slow toggle. Removed the hidden menu in the style.
         new BenchmarkTestStep(`Expanding menu`, (page) => {
             page.querySelector("#menu-toggle").click();
         }),
-        new BenchmarkTestStep(`Clicking overview`, (page) => {
-            page.querySelector("a[href='#sec-overview']").click();
-        }),
         new BenchmarkTestStep(`Clicking memory model`, (page) => {
+            page.querySelector("a[href='#sec-memory-model']").scrollIntoView();
             page.querySelector("a[href='#sec-memory-model']").click();
+        }),
+        new BenchmarkTestStep(`Clicking overview`, (page) => {
+            page.querySelector("a[href='#sec-overview']").scrollIntoView();
+            page.querySelector("a[href='#sec-overview']").click();
         }),
     ],
 });
