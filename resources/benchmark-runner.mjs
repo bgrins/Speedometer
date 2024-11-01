@@ -458,6 +458,9 @@ export class BenchmarkRunner {
         await this._finalize();
         performance.mark(finalizeEndLabel);
         performance.measure("runner-finalize", finalizeStartLabel, finalizeEndLabel);
+        performance.mark("speedometer-runner-metrics", {
+            detail: this._metrics,
+        });
     }
 
     async runSuite(suite) {
